@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Ilaaj | Consultation</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-layout">
+
+    <aside class="sidebar">
+      <div class="brand-section">
+        <a href="index.html" class="app-title">E-Ilaaj</a>
+        <span class="app-subtitle">Consultation Engine</span>
+      </div>
+
+      <div class="sidebar-menu">
+        <button class="option-pill" style="width:100%;" id="new-consultation-btn">+ New Consultation</button>
+      </div>
+
+      <div class="hist-label">Recent</div>
+      <div class="hist-list" id="hist-list"></div>
+
+      <div class="user-profile">
+        <div class="user-info">
+          <span class="user-name" id="user-display-name">Active Session</span>
+          <span class="user-role">Patient</span>
+        </div>
+        <button class="logout-btn" id="logout-btn">Logout</button>
+      </div>
+    </aside>
+
+    <main class="main-chat">
+      <header class="chat-header">
+        <div class="status-indicator"></div>
+        <span class="engine-title">New Consultation</span>
+      </header>
+
+      <div class="chat-messages" id="chat-messages"></div>
+
+      <div class="quick-options">
+        <button class="option-pill">Fever &amp; Headache</button>
+        <button class="option-pill">Cough &amp; Cold</button>
+        <button class="option-pill">Stomach Pain</button>
+      </div>
+
+      <div class="chat-input-area">
+        <div class="chat-form" id="chat-form">
+          <input
+            type="text"
+            class="chat-input"
+            id="chat-input"
+            placeholder="Describe your symptoms..."
+            autocomplete="off"
+          />
+          <button type="button" class="send-btn" id="send-btn">Send ➔</button>
+        </div>
+        <div class="composer-note">E-Ilaaj is not a substitute for professional medical care.</div>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="js/chat.js"></script>
+</body>
+</html>
