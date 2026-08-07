@@ -1,0 +1,58 @@
+# ==================== Python ====================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# ==================== Secrets / env ====================
+.env
+.env.*
+!.env.example
+
+# ==================== Database ====================
+*.db
+*.sqlite
+*.sqlite3
+user.db
+
+# ==================== Vector store / ingested data ====================
+chroma_db/
+data/*
+!data/.gitkeep
+
+# (Uncomment if you don't want to commit large source PDFs)
+# *.pdf
+
+# ==================== Logs ====================
+*.log
+ocr_work/
+
+# ==================== OS ====================
+.DS_Store
+Thumbs.db
+
+# ==================== Editors ====================
+.vscode/
+.idea/
+*.swp
+
+# ==================== Node (if any frontend tooling is added later) ====================
+node_modules/
+npm-debug.log*
+
+# ==================== Misc ====================
+*.zip
+__pycache__/
+.pytest_cache/
+.mypy_cache/
