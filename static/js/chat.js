@@ -111,7 +111,9 @@ function sendMessage() {
   appendMessage(userMessage, "user");
   chatInput.value = "";
 
-  const thinkingId = appendMessage("E-Ilaaj is thinking...", "system");
+  const thinkingId = appendMessage("", "bot", true);
+  const thinkingStartedAt = Date.now();
+  const MIN_TYPING_MS = 700;
 
   (async () => {
     try {
@@ -125,6 +127,11 @@ function sendMessage() {
       });
 
       const data = await response.json();
+
+      const elapsed = Date.now() - thinkingStartedAt;
+      if (elapsed < MIN_TYPING_MS) {
+        await new Promise((resolve) => setTimeout(resolve, MIN_TYPING_MS - elapsed));
+      }
       removeMessage(thinkingId);
 
       if (response.ok) {
@@ -140,6 +147,8 @@ function sendMessage() {
       console.error("Chat error:", err);
       removeMessage(thinkingId);
       appendMessage("Network error: could not reach the server.", "bot");
+    } finally {
+      chatInput.focus();
     }
   })();
 }
@@ -201,7 +210,7 @@ function handleLogout() {
 if (logoutBtn) logoutBtn.addEventListener("click", handleLogout);
 
 // --- Message rendering helpers ---------------------------------------------
-function appendMessage(text, sender) {
+function appendMessage(text, sender, isTyping = false) {
   const messageDiv = document.createElement("div");
   const uniqueId = `msg-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
   messageDiv.id = uniqueId;
@@ -211,7 +220,12 @@ function appendMessage(text, sender) {
     messageDiv.innerText = text;
   } else if (sender === "bot") {
     messageDiv.className = "message bot-msg";
-    messageDiv.innerHTML = `<strong>E-Ilaaj:</strong><br>${formatBotText(text)}`;
+    if (isTyping) {
+      messageDiv.innerHTML = `<strong>E-Ilaaj:</strong><br><span id="${uniqueId}-dots"></span>`;
+      startTypingDots(`${uniqueId}-dots`);
+    } else {
+      messageDiv.innerHTML = `<strong>E-Ilaaj:</strong><br>${formatBotText(text)}`;
+    }
   } else {
     messageDiv.className = "message system-msg";
     messageDiv.innerText = text;
@@ -222,7 +236,32 @@ function appendMessage(text, sender) {
   return uniqueId;
 }
 
+const typingIntervals = {};
+
+function startTypingDots(spanId) {
+  let step = 0;
+  const frames = ["●", "● ●", "● ● ●", "● ●", "●"];
+  const el = document.getElementById(spanId);
+  if (!el) return;
+  el.style.color = "#ffd23f";
+  el.style.letterSpacing = "2px";
+  el.textContent = frames[0];
+  typingIntervals[spanId] = setInterval(() => {
+    step = (step + 1) % frames.length;
+    const target = document.getElementById(spanId);
+    if (target) target.textContent = frames[step];
+  }, 350);
+}
+
+function stopTypingDots(spanId) {
+  if (typingIntervals[spanId]) {
+    clearInterval(typingIntervals[spanId]);
+    delete typingIntervals[spanId];
+  }
+}
+
 function removeMessage(elementId) {
+  stopTypingDots(`${elementId}-dots`);
   const el = document.getElementById(elementId);
   if (el) el.remove();
 }
