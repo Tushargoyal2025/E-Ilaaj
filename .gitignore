@@ -55,8 +55,4 @@ npm-debug.log*
 *.zip
 __pycache__/
 .pytest_cache/
-<<<<<<< HEAD
 .mypy_cache/
-=======
-.mypy_cache/
->>>>>>> 4888b041fb59be684251e7e64054d9d0965a3568
