@@ -93,4 +93,8 @@ E-Ilaaj final report:
 def check_api_keys() -> None:
     """Stop early with a clear message if a required API key is missing."""
     if not GROQ_API_KEY:
+<<<<<<< HEAD
         raise ValueError("GROQ_API_KEY is missing. Please set it in your .env file.")
+=======
+        raise ValueError("GROQ_API_KEY is missing. Please set it in your .env file.")
+>>>>>>> 4888b041fb59be684251e7e64054d9d0965a3568
