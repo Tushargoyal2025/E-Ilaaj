@@ -1,3 +1,5 @@
+console.log("%c CHAT.JS VERSION 3 LOADED ", "background: #ffd23f; color: black; font-size: 16px;");
+
 // =========================================================
 // chat.js — handles chat.html only
 // =========================================================
@@ -99,8 +101,12 @@ if (newConsultationBtn) newConsultationBtn.addEventListener("click", startNewCon
 const sendBtn = document.getElementById("send-btn");
 
 function sendMessage() {
+  console.log("[DEBUG] sendMessage() called");
   const userMessage = chatInput.value.trim();
-  if (!userMessage) return;
+  if (!userMessage) {
+    console.log("[DEBUG] empty message, aborting");
+    return;
+  }
 
   if (!localStorage.getItem("access_token")) {
     alert("Session expired. Please log in again.");
@@ -108,15 +114,19 @@ function sendMessage() {
     return;
   }
 
+  console.log("[DEBUG] appending user message");
   appendMessage(userMessage, "user");
   chatInput.value = "";
 
+  console.log("[DEBUG] appending typing indicator");
   const thinkingId = appendMessage("", "bot", true);
+  console.log("[DEBUG] typing indicator id:", thinkingId);
   const thinkingStartedAt = Date.now();
   const MIN_TYPING_MS = 700;
 
   (async () => {
     try {
+      console.log("[DEBUG] sending fetch to backend...");
       const response = await fetch(`${API_BASE_URL}/chat/`, {
         method: "POST",
         headers: {

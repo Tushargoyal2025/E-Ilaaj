@@ -9,9 +9,21 @@ Usage:
     python run.py
 """
 
+import threading
+import webbrowser
+
 import uvicorn
 
+
+def open_browser():
+    webbrowser.open("http://127.0.0.1:8000/")
+
+
 if __name__ == "__main__":
+    # Open the browser automatically ~1.5s after starting, giving the
+    # server just enough time to be ready to accept the connection.
+    threading.Timer(1.5, open_browser).start()
+
     uvicorn.run(
         "main:app",
         host="127.0.0.1",
